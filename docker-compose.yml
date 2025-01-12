@@ -1,0 +1,22 @@
+services:
+  tunnel:
+    image: cloudflare/cloudflared
+    restart: unless-stopped
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: always
+    ports:
+      - "8000:8000" # Portainer Agent
+      - "9443:9443" # Portainer Web UI (HTTPS)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # Access to Docker daemon
+      - portainer_data:/data # Persistent storage for Portainer
+
+volumes:
+  portainer_data:
+    external: true
