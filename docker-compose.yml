@@ -1,13 +1,13 @@
 services:
   tunnel:
-    image: cloudflare/cloudflared
+    image: ${CLOUDFLARED_IMAGE:-cloudflare/cloudflared:latest}
     restart: always
     command: tunnel run
     environment:
       - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
 
   portainer:
-    image: portainer/portainer-ce:latest
+    image: ${PORTAINER_IMAGE:-portainer/portainer-ce:latest}
     container_name: portainer
     restart: always
     ports:
